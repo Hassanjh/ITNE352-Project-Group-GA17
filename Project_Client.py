@@ -2,16 +2,19 @@ import socket
 
 cs = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
+print(10*"="+" Client started "+"="*10)
+
 cs.connect(("127.0.0.1",49999))
 
 username = input("Enter a Username: ")
-
 cs.send(username.encode('ascii'))
 
 recvMsg = cs.recv(2024).decode('ascii')
 airport_code = input(recvMsg)
 
 cs.send(airport_code.encode('ascii'))
+
+print(cs.recv(2048).decode('ascii'))
 
 while True:
     print("\nSelect the number of option:")
