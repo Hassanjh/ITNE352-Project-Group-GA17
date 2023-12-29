@@ -25,11 +25,27 @@ while True:
     print("5. Quit")
 
     op = input("\nEnter option: ")
-    if op == '5':
-        print(12*"*"+" Goodbye "+"*"*12)
-        cs.send("quit".encode('ascii'))
+    cs.send(op.encode('ascii'))
+    
+    if op == '1':
+        print("Loading arrived flights plese wait ⌛")
+    
+    elif op == '2':
+        print("Loading delayed flights plese wait ⌛")
+
+    elif op == '3':
+        city = input("Enter city code: ")
+        cs.send(city.encode('ascii'))
+        print(f"\nLoading All flights coming from {city} ⌛")
+
+    elif op == '4':
+        fnum = input("Enter flight number: ")
+        cs.send(fnum.encode('ascii'))
+        print(f"\nLoading details of flight number {fnum} plese wait ⌛")
+
+    elif op == '5':
+        print(12*"*"+" Goodbye 👋 "+"*"*12)
         break
-    elif op in ['1', '2', '3', '4']:
-        cs.send(op.encode('ascii'))
+
     else:
         print("Invalid Option")
