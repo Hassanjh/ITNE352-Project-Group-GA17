@@ -4,7 +4,9 @@ import socket
 from pip._vendor import requests
 
 
+# Function for retrieving flight data from an API and saving it in a JSON file
 def flight_data(arr_icao):
+    #parameters for retrieving the data from the API
     params={
     'access_key':'8f101121b2e162dcc73f1536f835e332',
     'arr_icao':arr_icao,
@@ -22,7 +24,7 @@ def flight_data(arr_icao):
         print(f'Error occurred while opening JSON file for writing: {e}')
     return data
 
-
+#Function for responding to client requests and providing the proper information
 def options(conn):
     
     username = conn.recv(2048).decode('ascii')
@@ -55,7 +57,7 @@ def options(conn):
             break
     conn.close()
 
-#function to store arrived flights
+#function to retrieve arrived flights from the JSON file
 def all_arrived_flights():
     with open ('GA17.json','r') as file:
         flight_info=json.load(file)
@@ -72,6 +74,7 @@ def all_arrived_flights():
             arr_flight.append(flight_data)
     return json.dumps(arr_flight, indent=2)
 
+#function to retrieve delayed flights from the JSON file
 def delayed_flights():
     with open ('GA17.json','r') as file:
         flight_info=json.load(file)
@@ -90,6 +93,7 @@ def delayed_flights():
             d_flights.append(flight_data)
     return json.dumps(d_flights, indent=2)
 
+#Function for retrieving flights from a specific airport from the JSON file 
 def specific_airport(dep_iata):
     with open ('GA17.json','r') as file:
         flight_info=json.load(file)
@@ -108,6 +112,7 @@ def specific_airport(dep_iata):
             s_flights.append(flight_data)
     return json.dumps(s_flights, indent=2)
 
+#Flight for retrieving details of a specific flight from the JSON file 
 def all_flight_details(flight_IATA):
     with open ('GA17.json','r') as file:
         flight_info=json.load(file)
@@ -130,13 +135,18 @@ def all_flight_details(flight_IATA):
             
     return json.dumps(specific_flight, indent=2)
 
+#Setting up the socket
 ss= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ss.bind(('127.0.0.1',49999))
+
 print(10*"="+" Server started "+"="*10)
+
 arr_icao = input("please enter the arrival icao code: ")
 flight_data(arr_icao)
+
 ss.listen(5)
 
+#|Function for accepting and handling severtal clients
 def main():
     while True:
         conn, addr = ss.accept()
