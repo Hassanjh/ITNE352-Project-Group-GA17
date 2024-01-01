@@ -2,26 +2,7 @@ import json
 import threading
 import socket
 from pip._vendor import requests
-""" ss= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-ss.bind(('127.0.0.1',49999))
-print(10*"="+" Server started "+"="*10)
-arr_icao = input("please enter the arrival icao code: ")
-flight_data(arr_icao) """
-clients=[]
-names=[]
-""" def connection(conn,addr):
-    name=conn.recv(2048).decode('ascii')
-    print(f"Got a connection from {addr} with username {name}")
-    clients.append(conn)
-    names.append(name)
-    msg = f"Hi {name}\nenter icao code: "
-    conn.sendall(msg.encode('ascii'))
-    print(names)
-    icao = conn.recv(2048).decode('ascii')
-    flight_info = flight_data(icao)
-    print(f"icao code from {name} is: {icao}")
-    conn.send(f"your icao code is {icao}".encode('ascii'))
-    options(conn,name,flight_info) """
+
 
 def flight_data(arr_icao):
     params={
@@ -42,36 +23,34 @@ def flight_data(arr_icao):
     return data
 
 
-
 def options(conn):
-    """  conn.sendall("enter ur name".encode('ascii'))
-    name=conn.recv(1024).decode('ascii') """
+    
     username = conn.recv(2048).decode('ascii')
     print("hi ", username)
     while True:
         op = conn.recv(2048).decode('ascii')
         print(f"{username} picked option: {op}")
         if op == '1':
-            print("Loading arrived flights please wait 鈱 ")
+            print("Loading arrived flights please wait ⌛ ")
             flight_info = all_arrived_flights()
             conn.send(flight_info.encode('ascii'))
         elif op == '2':
-            print("Loading delayed flights please wait 鈱 ")
+            print("Loading delayed flights please wait ⌛ ")
             flight_info = delayed_flights()
             conn.send(flight_info.encode('ascii'))
 
         elif op == '3':
             dep_iata = conn.recv(9999).decode('ascii')
-            print(f"\nLoading All flights coming from {dep_iata} 鈱 ")
+            print(f"\nLoading All flights coming from {dep_iata} ⌛ ")
             flight_info = specific_airport(dep_iata)
             conn.send(flight_info.encode('ascii'))
         elif op == '4':
             flight_IATA = conn.recv(9999).decode('ascii')
-            print(f"\nLoading details of flight number {flight_IATA} plese wait 鈱 ")
+            print(f"\nLoading details of flight number {flight_IATA} plese wait ⌛ ")
             flight_info = all_flight_details(flight_IATA)
             conn.sendall(flight_info.encode('ascii'))
         elif op == '5':
-            print(12*"*"+" Goodbye 馃憢 "+"*"*12)
+            print(12*"*"+" Goodbye 👋 "+"*"*12)
             print(f'{username} has disconnected')
             break
     conn.close()
