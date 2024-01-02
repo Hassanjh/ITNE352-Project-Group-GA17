@@ -1,0 +1,20 @@
+ITNE352-Project-Group-GA17
+
+This is a tutorial on how to properly run the scripts
+
+----------------------Server-------------------------
+
+1- Run the server. It will keep running until the user itself stops it
+
+2- Enter the arrival icao
+
+----------------------Client------------------------
+
+1- Run the client after performing the first two steps for the server.
+
+2- Enter the username and click enter.
+
+3- Select from options 1-5 
+
+4- The client will send the selected option to the server which will respond back with the right data.
+
