@@ -28,32 +28,36 @@ def flight_data(arr_icao):
 def options(conn):
     
     username = conn.recv(2048).decode('ascii')
-    print("hi ", username)
+    print("\nhi ", username)
     while True:
         op = conn.recv(2048).decode('ascii')
-        print(f"{username} picked option: {op}")
+        print(f"\n{username} picked option: {op}")
         if op == '1':
+            print ("Request from", username,"\n Request type: All arrived flights \n")
             print("Loading arrived flights please wait ⌛ ")
             flight_info = all_arrived_flights()
             conn.send(flight_info.encode('ascii'))
         elif op == '2':
+            print ("Request from", username,"\n Request type: Delayed flights \n")
             print("Loading delayed flights please wait ⌛ ")
             flight_info = delayed_flights()
             conn.send(flight_info.encode('ascii'))
 
         elif op == '3':
+            print ("Request from", username,"\n Request type: All flights from a specific city \n")
             dep_iata = conn.recv(9999).decode('ascii')
             print(f"\nLoading All flights coming from {dep_iata} ⌛ ")
             flight_info = specific_airport(dep_iata)
             conn.send(flight_info.encode('ascii'))
         elif op == '4':
+            print ("Request from", username,"\n Request type: Details about a specific flight \n")
             flight_IATA = conn.recv(9999).decode('ascii')
-            print(f"\nLoading details of flight number {flight_IATA} plese wait ⌛ ")
+            print(f"\nLoading details of flight number {flight_IATA} please wait ⌛ ")
             flight_info = all_flight_details(flight_IATA)
             conn.sendall(flight_info.encode('ascii'))
         elif op == '5':
             print(12*"*"+" Goodbye 👋 "+"*"*12)
-            print(f'{username} has disconnected')
+            print(f'\n{username} has disconnected')
             break
     conn.close()
 
@@ -146,7 +150,7 @@ flight_data(arr_icao)
 
 ss.listen(5)
 
-#|Function for accepting and handling severtal clients
+#|Function for accepting and handling several clients
 def main():
     while True:
         conn, addr = ss.accept()
