@@ -152,9 +152,13 @@ ss.listen(5)
 
 #|Function for accepting and handling several clients
 def main():
-    while True:
-        conn, addr = ss.accept()
-        t=threading.Thread(target=options, args=(conn,))
-        t.start()
+    try:
+        while True:
+            conn, addr = ss.accept()
+            t=threading.Thread(target=options, args=(conn,))
+            t.start()
+    except KeyboardInterrupt:
+            print("Ctrl+c was received. Server terminating")
+        
 if __name__ == '__main__':
     main()
